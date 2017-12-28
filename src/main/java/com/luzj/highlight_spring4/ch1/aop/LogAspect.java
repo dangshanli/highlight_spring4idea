@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
 @Aspect
 public class LogAspect {
     //定义建言，拦截方法
-    @Before("execution(com.luzj.highlight_spring4.ch1.aop.DemoMethodService.*(..))")
+    @Before("execution(* com.luzj.highlight_spring4.ch1.aop.DemoMethodService.*(..))")
     public void before(JoinPoint joinPoint){
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();
         Method method = signature.getMethod();
@@ -36,9 +36,4 @@ public class LogAspect {
         Action action = method.getAnnotation(Action.class);
         System.out.println("注解式拦截："+action.name());
     }
-
-    /*@Before("AnnotationPointCut()")
-    public void before(Joinpoint joinPoint){
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
-    }*/
 }
