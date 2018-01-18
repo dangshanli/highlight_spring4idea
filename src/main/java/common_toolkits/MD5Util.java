@@ -60,16 +60,19 @@ public class MD5Util {
         int n = b;//转成整数
         if (n < 0)
             n += 256;
-        int b1 = b / 16;//十位
-        int b2 = b % 16;//个位
+        int b1 = n / 16;//十位
+        int b2 = n % 16;//个位
         return hexDigits[b1] + hexDigits[b2];
     }
 
     public static void main(String[] args) {
-        Byte b = new Byte("101");
+        /*Byte b = new Byte("101");
         int a = b;
         System.out.println(b.byteValue());
         System.out.println(a);
-        System.out.println(byteToHex(b));
+        System.out.println(byteToHex(b));*/
+        String a = MD5Util.encodeByMD5("karas");
+        System.out.println(a);
+        System.out.println();
     }
 }
