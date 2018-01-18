@@ -10,6 +10,7 @@ import java.io.IOException;
 /**
  * Created by Administrator on 2018/1/17.
  * 解决网站跨域访问的问题
+ * 跨域访问：方案一
  */
 @Component
 public class CrossFilter implements Filter{
