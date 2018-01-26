@@ -229,11 +229,9 @@ public class ContinueFTP {
                         return UploadStatus.Create_Directory_Success;
                     }
                 }
-
                 //todo 拿下一级子目录的首尾位置
                 start = end +1;
                 end = directory.indexOf("/",start);
-
                 //todo 循环出口
                 if (end <= start){
                     break;
@@ -308,13 +306,12 @@ public class ContinueFTP {
     public static void main(String[] args) {
         ContinueFTP myFtp = new ContinueFTP();
         try {
-            myFtp.connect("192.168.21.181", 21, "nid", "123");
-//          myFtp.ftpClient.makeDirectory(new String("电视剧".getBytes("GBK"),"iso-8859-1"));
-//          myFtp.ftpClient.changeWorkingDirectory(new String("电视剧".getBytes("GBK"),"iso-8859-1"));
-//          myFtp.ftpClient.makeDirectory(new String("走西口".getBytes("GBK"),"iso-8859-1"));
-//          System.out.println(myFtp.upload("http://www.5a520.cn /yw.flv", "/yw.flv",5));
-//          System.out.println(myFtp.upload("http://www.5a520.cn /走西口24.mp4","/央视走西口/新浪网/走西口24.mp4"));
-            System.out.println(myFtp.download("/央视走西口/新浪网/走西口24.mp4", "E:\\走西口242.mp4"));
+            myFtp.connect("10.60.19.119", 21, "test", "123");
+//          myFtp.ftpClient.makeDirectory(new String("电视剧".getBytes("GBK"), "iso-8859-1"));
+//          myFtp.ftpClient.changeWorkingDirectory(new String("电视剧".getBytes("GBK"), "iso-8859-1"));
+//          myFtp.ftpClient.makeDirectory(new String("走西口".getBytes("GBK"), "iso-8859-1"));
+          System.out.println(myFtp.upload("F:\\壁纸\\19.jpg", "图片/my.png"));
+//        System.out.println(myFtp.download("//ada_wong.jpg", "E:\\ada_wong.jpg"));
             myFtp.disconnect();
         } catch (IOException e) {
             System.out.println("连接FTP出错："+e.getMessage());
