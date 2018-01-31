@@ -2,9 +2,12 @@ package common_toolkits.twent_useful_segments;
 
 import org.slf4j.Logger;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Properties;
 
 /**
  * @author luzj
@@ -47,6 +50,7 @@ public class JavaSegments {
     public void appendStrToFile(String fileName) {
         BufferedWriter out = null;
         try {
+            //todo 获取磁盘文件的字符写入流
             out = new BufferedWriter(new FileWriter(fileName, true));
             out.write("\n我爱萝莉");
         } catch (IOException e) {
@@ -67,7 +71,8 @@ public class JavaSegments {
 
     /**
      * 获取当前运行的方法名，这里是"getCurrentMethodName"
-     *谁掉下面的代码片段，显示谁的方法签名
+     * 谁掉下面的代码片段，显示谁的方法签名
+     *
      * @return
      */
     public String getCurrentMethodName() {
@@ -78,11 +83,78 @@ public class JavaSegments {
 
     /**
      * 打印方法调用栈
-      */
+     */
     private void printMethodTrace() {
         int i = 0;
+        //todo 遍历当前线程方法栈 栈元素集
         for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
             System.out.println("method" + (i++) + ": " + element.getMethodName());
+        }
+    }
+
+    /**
+     * 将格式化字符串转换成Date日期
+     *
+     * @param myDate
+     */
+    public void transferStrToDate(String myDate) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = simpleDateFormat.parse(myDate);
+            System.out.println(date.toString());
+        } catch (ParseException e) {
+            System.err.println("传递的格式不对");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 连接oracle数据库，执行查询
+     * @throws IOException
+     * @throws SQLException
+     */
+    public void connectOracle() throws IOException, SQLException {
+        String driveClass = "oracle.jdbc.driver.OracleDriver";
+        Connection connection = null;
+
+        FileInputStream in = new FileInputStream("src/main/resource/oracle.properties");
+        Properties props = new Properties();
+        String url = null;
+        String userName = null;
+        String password = null;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try {
+            //todo 读取输入流中的文件属性，连接oracle
+            props.load(in);
+            url = props.getProperty("db.url");
+            userName = props.getProperty("db.user");
+            password = props.getProperty("db.password");
+            Class.forName(driveClass);
+            connection = DriverManager.getConnection(url, userName, password);
+
+            //todo 执行查询
+            String sql = "select syadate from dual";
+            ps = connection.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                //do something
+            }
+
+        } catch (IOException e) {
+            System.err.println("oracle登录信息properties文件找不到");
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            System.err.println("没安装oracle的驱动类");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.err.println("数据库连接错误");
+            e.printStackTrace();
+        } finally {
+            rs.close();
+            ps.close();
+            connection.close();
+            in.close();
         }
     }
 
@@ -91,10 +163,11 @@ public class JavaSegments {
         JavaSegments javaSegments = new JavaSegments();
 //        System.out.println(javaSegments.transferIntToStr(2222));
 //        System.out.println(javaSegments.transferStrToInt("234.567"));
-        javaSegments.appendStrToFile("F:\\testio\\my.txt");
+        javaSegments.appendStrToFile("src/main/resource/oracle.properties");
 //        System.out.println(javaSegments.getCurrentMethodName());
 //        String name = Thread.currentThread().getStackTrace()[1].getMethodName();
 //        System.out.println(name);
+//        javaSegments.transferStrToDate("2019-11-4");
     }
 
 
