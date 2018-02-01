@@ -1,8 +1,7 @@
 package common_toolkits.twent_useful_segments;
 
-import org.slf4j.Logger;
-
 import java.io.*;
+import java.nio.channels.FileChannel;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,7 +11,7 @@ import java.util.Properties;
 /**
  * @author luzj
  * @package common_toolkits.twent_useful_segments
- * @description: java中常用的20个代码片段
+ * @description: java中常用的20个代码片段，前7个
  * @date 2018/1/31 15:12
  */
 public class JavaSegments {
@@ -110,6 +109,7 @@ public class JavaSegments {
 
     /**
      * 连接oracle数据库，执行查询
+     *
      * @throws IOException
      * @throws SQLException
      */
@@ -140,7 +140,6 @@ public class JavaSegments {
             while (rs.next()) {
                 //do something
             }
-
         } catch (IOException e) {
             System.err.println("oracle登录信息properties文件找不到");
             e.printStackTrace();
@@ -158,16 +157,62 @@ public class JavaSegments {
         }
     }
 
+    /**
+     * 将util.date转成sql.date
+     * sql.Date是给数据库date类型专用的，是util的子类
+     */
+    public void transferDate() {
+        java.util.Date utilDate = new java.util.Date();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+    }
+
+    /**
+     * 使用nio API进行快速拷贝，支持大文件拷贝
+     * @param from
+     * @param to
+     * @throws IOException
+     */
+    public void fileCopy(String from,String to) throws IOException {
+        FileChannel inChannel = new FileInputStream(from).getChannel();
+        FileChannel outChannel = new FileOutputStream(to).getChannel();
+        try {
+            //todo 最大单次传输大小
+            int maxCount = (64 * 1024 * 1024) - (32 * 1024);
+            long size = inChannel.size();
+            long position = 0;
+            long step = size /100;
+            long process = 0;
+            while (position < size) {
+                position += inChannel.transferTo(position, maxCount, outChannel);
+               long a = (position / step > process)?(position/step):process;
+                if (a > process)
+                    System.out.println("process: "+(process = a)+"%");
+            }
+        }finally {
+            if (inChannel != null)
+                inChannel.close();
+            if (outChannel != null)
+                outChannel.close();
+        }
+    }
 
     public static void main(String[] args) {
         JavaSegments javaSegments = new JavaSegments();
 //        System.out.println(javaSegments.transferIntToStr(2222));
 //        System.out.println(javaSegments.transferStrToInt("234.567"));
-        javaSegments.appendStrToFile("src/main/resource/oracle.properties");
+//        javaSegments.appendStrToFile("src/main/resource/oracle.properties");
 //        System.out.println(javaSegments.getCurrentMethodName());
 //        String name = Thread.currentThread().getStackTrace()[1].getMethodName();
 //        System.out.println(name);
 //        javaSegments.transferStrToDate("2019-11-4");
+
+        try {
+            String from = "F:\\迅雷下载\\Python_kfsz_pdf.zip";
+            String to = "F:\\file_copy_python.zip";
+            javaSegments.fileCopy(from,to);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -94,6 +94,15 @@
             <version>10.2.0.4.0</version>
         </dependency>
 
+        <!--生成缩略图工具包-->
+        <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
