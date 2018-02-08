@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class TestInput {
 
-    public static void transfer(String from,String to) {
+    public static void transfer(String from, String to) {
         FileInputStream in = null;
         FileOutputStream out = null;
         try {
@@ -35,7 +35,7 @@ public class TestInput {
         }
     }
 
-    public void testStreamAPI(){
+    public void testStreamAPI() {
         File f = new File("F:\\壁纸\\dancer.jpg");
         try {
             new BufferedInputStream(new ObjectInputStream(new FileInputStream(f)));
@@ -45,8 +45,8 @@ public class TestInput {
     }
 
     public static void main(String[] args) {
-        transfer("E://learning.py","F://my_thanks.py");
-        transfer("F:\\壁纸\\01.jpg","F://kiss_love.jpg");
+        transfer("E://learning.py", "F://my_thanks.py");
+        transfer("F:\\壁纸\\01.jpg", "F://kiss_love.jpg");
     }
 
 

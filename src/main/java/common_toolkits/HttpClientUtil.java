@@ -13,6 +13,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultRedirectStrategy;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
@@ -32,8 +33,8 @@ import java.util.Map;
  * Created by Administrator on 2018/1/18.
  */
 public class HttpClientUtil {
-    @Autowired
-    HttpClient httpClient;
+
+    HttpClient httpClient  = HttpClients.createDefault();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**

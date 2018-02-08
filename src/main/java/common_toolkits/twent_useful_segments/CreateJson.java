@@ -10,6 +10,11 @@ import com.google.gson.JsonObject;
  * @date 2018/2/2 11:07
  */
 public class CreateJson {
+
+    /**
+     * 将对象包装到JSonObject里面
+     * @return jsonObject对象
+     */
     public static JsonObject buildJson() {
         JsonObject jsonObject = new JsonObject();
 
