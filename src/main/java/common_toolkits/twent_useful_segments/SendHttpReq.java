@@ -16,7 +16,8 @@ public class SendHttpReq {
 
     public void sendHttpReq(){
         try {
-            URL my_url = new URL("http://10.60.19.119:8091/v1/qr/qrCodeData/findByLoginId?loginId=AGK50050");
+            URL my_url = new
+                    URL("http://10.60.19.119:8091/v1/qr/qrCodeData/findByLoginId?loginId=AGK50050");
             BufferedReader br = new BufferedReader(new InputStreamReader(my_url.openStream()));
 
             String str = "";
