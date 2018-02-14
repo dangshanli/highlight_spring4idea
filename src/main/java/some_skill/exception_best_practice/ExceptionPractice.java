@@ -1,9 +1,7 @@
 package some_skill.exception_best_practice;
 
-import oracle.sql.NUMBER;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -191,16 +189,6 @@ public class ExceptionPractice {
             throw new MyBusinessException("描述错误的信息",e);
         }
     }
-
-
-
-
-
-
-
-
-
-
 
     public static void main(String[] args) {
         new ExceptionPractice().userLogger();
