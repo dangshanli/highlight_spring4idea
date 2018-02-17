@@ -88,11 +88,11 @@
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.oracle/ojdbc14 -->
-        <dependency>
+       <!-- <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
             <version>10.2.0.4.0</version>
-        </dependency>
+        </dependency>-->
 
         <!--生成缩略图工具包-->
         <!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
@@ -135,6 +135,13 @@
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
             <version>1.1.1</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>4.3.12.RELEASE</version>
         </dependency>
 
 
