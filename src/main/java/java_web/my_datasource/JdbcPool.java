@@ -18,6 +18,9 @@ import java.sql.SQLFeatureNotSupportedException;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
+/**
+ * 通过实现DataSource实现连接池类
+ */
 @Configuration
 @PropertySource("classpath:src/main/resource/db.properties")
 public class JdbcPool implements DataSource {

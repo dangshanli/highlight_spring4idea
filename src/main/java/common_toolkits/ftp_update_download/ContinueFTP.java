@@ -306,12 +306,12 @@ public class ContinueFTP {
     public static void main(String[] args) {
         ContinueFTP myFtp = new ContinueFTP();
         try {
-            myFtp.connect("10.60.19.119", 21, "test", "123");
+//            myFtp.connect("10.60.19.119", 21, "test", "123");
 //          myFtp.ftpClient.makeDirectory(new String("电视剧".getBytes("GBK"), "iso-8859-1"));
 //          myFtp.ftpClient.changeWorkingDirectory(new String("电视剧".getBytes("GBK"), "iso-8859-1"));
 //          myFtp.ftpClient.makeDirectory(new String("走西口".getBytes("GBK"), "iso-8859-1"));
-          System.out.println(myFtp.upload("F:\\壁纸\\19.jpg", "图片/my.png"));
-//        System.out.println(myFtp.download("//ada_wong.jpg", "E:\\ada_wong.jpg"));
+//          System.out.println(myFtp.upload("F:\\壁纸\\19.jpg", "图片/my.png"));
+        System.out.println(myFtp.download("ftp://dygod2:dygod2@yg09.dydytt.net:1001/破产姐妹第六季/[阳光电影www.ygdy8.com]破产姐妹第六季第01-02集[中英双字].rmvb", "E:\\ada_wong.rmvb"));
             myFtp.disconnect();
         } catch (IOException e) {
             System.out.println("连接FTP出错："+e.getMessage());

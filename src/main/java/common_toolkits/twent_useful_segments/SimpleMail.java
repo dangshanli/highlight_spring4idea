@@ -20,7 +20,7 @@ public class SimpleMail extends MailService {
     @Override
     public MimeMessage fillMessage(MimeMessage message) throws MessagingException {
         String title = "二狗！！！";
-        String content = "我想你啊";
+        String content = "行动如风轻盈似箭";
         message.setText(content);
         message.setSubject(title);
         message.setSentDate(new Date());

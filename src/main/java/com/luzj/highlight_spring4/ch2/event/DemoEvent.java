@@ -1,6 +1,5 @@
 package com.luzj.highlight_spring4.ch2.event;
 
-import javafx.application.Application;
 import org.springframework.context.ApplicationEvent;
 
 /**
