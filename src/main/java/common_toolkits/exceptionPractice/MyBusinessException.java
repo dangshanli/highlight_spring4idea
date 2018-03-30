@@ -1,4 +1,4 @@
-package some_skill.exception_best_practice;
+package common_toolkits.exceptionPractice;
 
 /**
  * @author: luzj
