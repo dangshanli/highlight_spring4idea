@@ -18,13 +18,13 @@ public class MemoryConsistenceErrorExample {
     /**
      * 示例，内存不一致错误
      * 理想输出：
-     * Say Hello..
-     * Hello World!
-     * Say Bye..
-     * Good Bye!
-     * 真是输出：
-     * say hello....
-     * say bye...
+     *  Say Hello..
+     *  Hello World!
+     *  Say Bye..
+     *  Good Bye!
+     * 真实输出：
+     *  say hello....
+     *  say bye...
      * <p>
      * 为什么：
      * 因为子线程根本没有意识到主线程已经将sayHello变量改变，所以一直在死循环，这就是内存错误导致的
