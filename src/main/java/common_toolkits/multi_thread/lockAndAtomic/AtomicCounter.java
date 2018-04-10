@@ -8,10 +8,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * @author luzj
  * @description:
- * 1.java的并发包里面提供一些原子类型，基本对应几个基本类型，这些类型作为共享变量时可以实现原子操作
+ * 1.java的并发包里面提供一些原子类型，基本对应几个基本类型和使用泛型对应各种自定义类型，这些类型作为共享变量时可以实现原子操作
  * 2.即通过现代CPU的比较-交换指令，支持完成同步
  * 3.这些指令比我们一般使用的锁快很多
  * 4.这里演示的是AtomicInteger
+ * 5.由于原子操作比锁更快、更安全，因此能用的时候尽量优先用原子类
  * @date 2018/4/11
  */
 public class AtomicCounter {
