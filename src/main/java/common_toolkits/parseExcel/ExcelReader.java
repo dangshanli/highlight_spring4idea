@@ -85,7 +85,7 @@ public class ExcelReader {
     }
 
 
-    private ColorInfo excelColor2U0F(Color color) {
+/*    private ColorInfo excelColor2U0F(Color color) {
         if (color == null)
             return null;
         ColorInfo ci = null;
@@ -105,7 +105,7 @@ public class ExcelReader {
         }
         return ci;
 
-    }
+    }*/
 
     public static void main(String[] args) {
         String path = "C:\\sftp_test\\sample_spreadsheet.xlsx";
