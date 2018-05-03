@@ -2,7 +2,7 @@ package linktable;
 
 /**
  * @author luzj
- * @description:
+ * @description: 作为测试用的节点data用
  * @date 2018/4/26
  */
 public class Student {
