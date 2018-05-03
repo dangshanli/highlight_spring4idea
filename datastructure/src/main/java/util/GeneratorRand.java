@@ -12,7 +12,7 @@ import java.util.Random;
 
 /**
  * @author luzj
- * @description:
+ * @description: 生成随机名字 和 年龄10-80
  * @date 2018/4/26
  */
 public class GeneratorRand {
