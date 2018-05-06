@@ -13,9 +13,15 @@ import linktable.SingleNode;
  */
 public class FloydRing {
 
+    /**
+     * 判定是否有环
+     * @param head
+     * @return
+     */
     public static boolean isCircular(SingleNode<Integer> head) {
         if (head == null)
             return false;
+
         SingleNode<Integer> ptrSlow = head,
                 ptrFast = head;
 
@@ -30,14 +36,83 @@ public class FloydRing {
         return false;
     }
 
+    /**
+     * 问题11，拓展Floyd算法，找出交叉点
+     *- 当两点交合时，slow重置为head，fast保持原点
+     *- 两者一起同步前移，当再次两会的时候，交点就是环的初始点
+     * @param head
+     * @return
+     */
+    public static SingleNode findBeginOfLoop(SingleNode<Integer> head) {
+        if (head == null)
+            return null;
+        boolean isLoop = false;
+        SingleNode<Integer> ptrSlow = head, ptrFast = head;
+
+        while (ptrFast.getNext() != null && ptrFast.getNext().getNext() != null) {
+            ptrSlow = ptrSlow.getNext();
+            ptrFast = ptrFast.getNext().getNext();
+            if (ptrSlow == ptrFast) {
+                System.err.println("交汇点："+ptrSlow.getDate());
+                isLoop = true;
+                break;
+            }
+        }
+
+        if (isLoop) {
+            ptrSlow = head;
+            while (ptrSlow != ptrFast) {
+                ptrFast = ptrFast.getNext();
+                ptrSlow = ptrSlow.getNext();
+            }
+            return ptrSlow;
+        }
+        return null;
+    }
+
+    /**
+     * 问题14：
+     * 计算环的长度
+     * @param head
+     * @return
+     */
+    public static int findLoopLength(SingleNode<Integer> head){
+        if (head == null)
+            return 0;
+        boolean isLoop = false;
+        SingleNode<Integer> ptrSlow = head, ptrFast = head;
+
+        while (ptrFast.getNext() != null && ptrFast.getNext().getNext() != null) {
+            ptrSlow = ptrSlow.getNext();
+            ptrFast = ptrFast.getNext().getNext();
+            if (ptrSlow == ptrFast) {
+                isLoop = true;
+                break;
+            }
+        }
+        if (isLoop){
+            int count = 1;
+            ptrFast = ptrFast.getNext();
+            while (ptrSlow != ptrFast){
+                ptrFast = ptrFast.getNext();
+                count++;
+            }
+            return count;
+        }
+        return 0;
+    }
+
     public static void main(String[] args) {
         ListUtils utils = new ListUtils();
 
         if (isCircular(utils.headNode)) {
             System.out.println("循环!!!");
+            System.out.println(findBeginOfLoop(utils.headNode).getDate());
+            System.out.println("环的长度:"+findLoopLength(utils.headNode));
         } else {
             System.out.println("不循环!!!");
         }
+
 
     }
 }
