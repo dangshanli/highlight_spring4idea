@@ -14,11 +14,11 @@ import java.util.Map;
 public class ListUtils {
 
     /**
-     *问题6：判断一个链表是否为循环链表，比如：A->B->C->D->E->F->C
+     * 问题6：判断一个链表是否为循环链表，比如：A->B->C->D->E->F->C
      * 蛮力法：
      * - 从表头开始遍历链表，持有当前节点，然后遍历整个链表和看是否有节点也指向当前节点，是则循环
      * 缺点：无法确定循环终止条件，循环链表可能无线循环，不适用
-     *
+     * <p>
      * 问题7：
      * 判断链表是否有环
      * 方法：
@@ -27,14 +27,13 @@ public class ListUtils {
      * 3.知道结束：有，则循环链表；没有，则不是循环链表
      * <p>
      * 改进散列取值后，时间仅为测试循环开销O(n)，之前是O(n^2)
-     *
+     * <p>
      * 问题8：使用排序法是否可以测试环的问题？
      * - 遍历每个节点，他的后继节点地址保存到数组中去
      * - 将节点保存到数组中去
      * - 排序数组，之后检测有相邻节点地址相同即可得出此为循环链表
      * 缺点：一旦遇到循环链表，无法判定终结位置，因此盲目遍历可能死循环。必须要先确定链表长度。
      * 因此，不适用。
-     *
      *
      * @return
      */
@@ -82,7 +81,7 @@ public class ListUtils {
         SingleNode<Integer> current = headNode;
 
         int count = 0;
-        while (count < 10) {
+        while (count < 50) {
             SingleNode<Integer> node = new SingleNode<>();
             node.setDate(count);
             if (headNode == null) {
@@ -92,7 +91,7 @@ public class ListUtils {
             if (current != null)
                 current.setNext(node);
             current = current.getNext();
-            if (count == 4)
+            if (count == 30)
                 crossing = current;
             count++;
         }
@@ -100,10 +99,71 @@ public class ListUtils {
     }
 
 
+    public static boolean isCircularFloyd(SingleNode<Integer> head) {
+        SingleNode<Integer> ptrSlow = head,
+                ptrFast = head;
+        if (head == null)
+            return false;
+
+        while (ptrFast.getNext() != null && ptrFast.getNext().getNext() != null) {
+            ptrSlow = ptrSlow.getNext();
+            ptrFast = ptrFast.getNext().getNext();
+            if (ptrFast == ptrSlow)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * 问题15：
+     * 在有序链表中插入一个节点
+     *
+     * @param head
+     * @param newNode
+     * @return
+     */
+    SingleNode<Integer> insertInSortedList(SingleNode<Integer> head, SingleNode<Integer> newNode) {
+        SingleNode<Integer> current = head;
+        if (head == null)
+            return newNode;
+        SingleNode<Integer> temp = null;
+
+        while (current != null && current.getDate() < newNode.getDate()) {
+            temp = current;
+            current = current.getNext();
+        }
+        newNode.setNext(current);
+        temp.setNext(newNode);
+        return head;
+    }
+
+    /**
+     * 问题16：
+     * 逆置单向链表
+     * @param head
+     * @return
+     */
+    SingleNode<Integer> reverseSList(SingleNode<Integer> head){
+        SingleNode<Integer> nextNode = null,temp = null;
+        while (head != null){
+            nextNode = head.getNext();
+            head.setNext(temp);
+            temp = head;
+            head = nextNode;
+        }
+        return temp;
+    }
+
+
     public static void main(String[] args) {
         ListUtils utils = new ListUtils();
         if (utils.isCircularList(headNode))
             System.out.println("循环链表!!!");
+        else
+            System.out.println("不循环!!!");
+
+        if (isCircularFloyd(headNode))
+            System.out.println("循环!!!");
         else
             System.out.println("不循环!!!");
     }
