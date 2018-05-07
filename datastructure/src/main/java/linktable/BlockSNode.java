@@ -11,14 +11,6 @@ public class BlockSNode<T> {
     private CLLNode<T> cllNode;//循环链表的表头节点
     private BlockSNode<T> next;//下一个节点块的引用
 
-    public BlockSNode() {
-    }
-
-    public BlockSNode(CLLNode<T> cllNode, BlockSNode<T> next) {
-        this.cllNode = cllNode;
-        this.next = next;
-    }
-
     public CLLNode<T> getCllNode() {
         return cllNode;
     }

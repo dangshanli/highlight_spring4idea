@@ -5,15 +5,15 @@ package linktable;
  * @description: 定义链表节点对象
  * @date 2018/4/26
  */
-public class ListNode<T> {
+public class SingleNode<T> {
     private T date; //节点数据
-    private ListNode next;//指向下一个的指针
+    private SingleNode next;//指向下一个的指针
 
 
-    public ListNode() {
+    public SingleNode() {
     }
 
-    public ListNode(T date, ListNode next) {
+    public SingleNode(T date, SingleNode next) {
         this.date = date;
         this.next = next;
     }
@@ -26,11 +26,11 @@ public class ListNode<T> {
         this.date = date;
     }
 
-    public ListNode getNext() {
+    public SingleNode getNext() {
         return next;
     }
 
-    public void setNext(ListNode next) {
+    public void setNext(SingleNode next) {
         this.next = next;
     }
 }

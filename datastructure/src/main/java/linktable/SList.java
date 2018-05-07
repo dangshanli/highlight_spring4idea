@@ -11,15 +11,15 @@ import java.util.Random;
  */
 public class SList<T> {
 
-    private ListNode head;
+    private SingleNode head;
 
     /**
      * 遍历打印链表
      *
      * @param headNode
      */
-    public void traverse(ListNode<T> headNode) {
-        ListNode currentNode = headNode;
+    public void traverse(SingleNode<T> headNode) {
+        SingleNode currentNode = headNode;
         while (currentNode != null) {
             System.out.println(currentNode.getDate());
             currentNode = currentNode.getNext();
@@ -32,9 +32,9 @@ public class SList<T> {
      * @param headNode
      * @return 链表长度
      */
-    int listLength(ListNode<T> headNode) {
+    public int listLength(SingleNode<T> headNode) {
         int length = 0;
-        ListNode currentNode = headNode;
+        SingleNode currentNode = headNode;
 
         while (currentNode != null) {
             length++;
@@ -51,7 +51,7 @@ public class SList<T> {
      * @param position     位置
      * @return 查完后链表
      */
-    ListNode<T> insertInLinkedList(ListNode<T> headNode, ListNode<T> nodeToInsert, int position) {
+    public SingleNode<T> insertInLinkedList(SingleNode<T> headNode, SingleNode<T> nodeToInsert, int position) {
         // 待插入链表为空
         if (headNode == null)
             return nodeToInsert;
@@ -70,13 +70,13 @@ public class SList<T> {
             nodeToInsert.setNext(headNode);
             return nodeToInsert;
         } else {//插在中间或者尾部
-            ListNode<T> previousNode = headNode;
+            SingleNode<T> previousNode = headNode;
             int count = 1;
             while (count < position - 1) {
                 previousNode = previousNode.getNext();
                 count++;
             }
-            ListNode<T> currentNode = previousNode.getNext();
+            SingleNode<T> currentNode = previousNode.getNext();
             nodeToInsert.setNext(currentNode);
             previousNode.setNext(nodeToInsert);
         }
@@ -91,7 +91,7 @@ public class SList<T> {
      * @param position 删除位置
      * @return 删除后节点
      */
-    ListNode<T> deleteNodeFromLinkedList(ListNode<T> headNode, int position) {
+    public SingleNode<T> deleteNodeFromLinkedList(SingleNode<T> headNode, int position) {
         int size = listLength(headNode);
 
         if (position > size || position < 1) {//位置越界
@@ -100,19 +100,20 @@ public class SList<T> {
         }
 
         if (position == 1) { //删除表头节点
-            ListNode<T> currentNode = headNode.getNext();
+            SingleNode<T> currentNode = headNode.getNext();
             headNode = null;
             return currentNode;
         } else {//删除中间或者结尾节点
-            ListNode previousNode = headNode;
+            SingleNode previousNode = headNode;
             int count = 1;
             while (count < position) {
                 previousNode = previousNode.getNext();//待删除节点的前置节点
                 count++;
             }
 
-            ListNode currentNode = previousNode.getNext();//待删除的节点
-            previousNode.setNext(currentNode.getNext());
+            SingleNode currentNode = previousNode.getNext();//待删除的节点
+            if (currentNode.getNext() != null)
+                previousNode.setNext(currentNode.getNext());
             currentNode = null;
         }
 
@@ -124,8 +125,8 @@ public class SList<T> {
      *
      * @param headNode
      */
-    public void deleteLikedList(ListNode<T> headNode) {
-        ListNode auxilaryNode, iterator = headNode;
+    public void deleteLikedList(SingleNode<T> headNode) {
+        SingleNode auxilaryNode, iterator = headNode;
         while (iterator != null) {
             auxilaryNode = iterator.getNext();
             iterator = null; //对象失去引用，GC会自动处理
@@ -140,11 +141,11 @@ public class SList<T> {
      * @param data 节点数据数组
      * @return 新建链表的头节点
      */
-    public ListNode initNode(T[] data) {
-        ListNode<T> currentNode = null;//移动指针
+    public SingleNode initNode(T[] data) {
+        SingleNode<T> currentNode = null;//移动指针
         head = null;
         for (int i = 0; i < data.length; i++) {
-            ListNode<T> node = new ListNode();
+            SingleNode<T> node = new SingleNode();
             node.setDate(data[i]);
 
             if (head == null) {
@@ -159,11 +160,11 @@ public class SList<T> {
     }
 
 
-    public ListNode getHead() {
+    public SingleNode getHead() {
         return head;
     }
 
-    public void setHead(ListNode head) {
+    public void setHead(SingleNode head) {
         this.head = head;
     }
 
@@ -185,24 +186,24 @@ public class SList<T> {
         studentSList.traverse(studentSList.head);
         System.out.println(studentSList.listLength(studentSList.head));
 
-        ListNode<Student> node = new ListNode<>();
+        SingleNode<Student> node = new SingleNode<>();
         Student s = new Student(GeneratorRand.generatorName(), GeneratorRand.generatorName(), GeneratorRand.generatorAge());
         System.err.println("\t新增节点：" + s);
         node.setDate(s);
 
-        ListNode x = studentSList.insertInLinkedList(studentSList.head, node, 8);
+        SingleNode x = studentSList.insertInLinkedList(studentSList.head, node, 8);
         studentSList.traverse(x);
 
         s = new Student(GeneratorRand.generatorName(), GeneratorRand.generatorName(), GeneratorRand.generatorAge());
         System.err.println("\t新增节点2：" + s);
-        ListNode<Student> node1 = new ListNode<>();
+        SingleNode<Student> node1 = new SingleNode<>();
         node1.setDate(s);
 
-        ListNode y =studentSList.insertInLinkedList(x,node1,1);
+        SingleNode y = studentSList.insertInLinkedList(x, node1, 1);
         studentSList.traverse(y);
 
         System.out.println("删除：");
-        ListNode z = studentSList.deleteNodeFromLinkedList(y,11);
+        SingleNode z = studentSList.deleteNodeFromLinkedList(y, 11);
         studentSList.traverse(z);
 
 
