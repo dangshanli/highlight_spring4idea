@@ -29,8 +29,9 @@ public class ExcelReader {
      * @throws InvalidFormatException
      */
     public void printExcel(File excel) throws IOException, InvalidFormatException {
+
+        //不管是.xls 还是 .xlsx 文件都可以解析
         Workbook workbook = WorkbookFactory.create(excel);
-//        XSSFWorkbook workbook = new XSSFWorkbook(excel);
         System.out.println(excel.getName() + "有" + workbook.getNumberOfSheets() + "个sheet");
 
         //todo 获取sheet名称，使用lambda表达式
@@ -43,6 +44,8 @@ public class ExcelReader {
         //todo 获取第一张sheet表的数据
         Sheet sheet1 = workbook.getSheetAt(0);
         DataFormatter dataFormatter = new DataFormatter();
+
+
         sheet1.forEach(row -> {
             List<String> list = new ArrayList<>();
             row.forEach(cell -> {
@@ -57,7 +60,6 @@ public class ExcelReader {
                         for (byte by : b) {
                             System.out.print((int) by+"\t");
                         }
-//                        System.out.println(b.length);
                         java.awt.Color awtColor = new java.awt.Color(change(b[1]), change(b[2]), change(b[3]), change(b[0]));
                         if (awtColor.equals(java.awt.Color.RED))
                             System.out.println(awtColor.toString()+"===="+"red"+"===="+dataFormatter.formatCellValue(cell));
@@ -68,7 +70,6 @@ public class ExcelReader {
                 list.add(cellValue);
             });
             data.put(row.getRowNum(), list);
-//            System.out.println(list);
         });
 
         //todo 关闭workbook
@@ -85,36 +86,33 @@ public class ExcelReader {
     }
 
 
-/*    private ColorInfo excelColor2U0F(Color color) {
-        if (color == null)
-            return null;
-        ColorInfo ci = null;
-        if (color instanceof XSSFColor) {
-            XSSFColor xssfColor = (XSSFColor) color;
-            byte[] b = xssfColor.getARGB();
-            System.out.println("argb_length:" + b.length);
-            if (b != null) {
-                System.out.println((int) b[0] + ":" + (int) b[1]);
-                ci = ColorInfo.fromARGB(b[0], b[1], b[2], b[3]);
-            }
-        } else if (color instanceof HSSFColor) {
-            HSSFColor hssfColor = (HSSFColor) color;
-            short[] s = hssfColor.getTriplet();
-            if (s != null)
-                ci = ColorInfo.fromARGB(s[0], s[1], s[2]);
+    public void testXXX(File excel) throws IOException, InvalidFormatException {
+        Workbook wb = WorkbookFactory.create(excel);
+        Sheet sheet = wb.getSheetAt(0);
+        System.err.println("sheet:"+sheet);
+        Row row = sheet.getRow(0);
+        System.err.println("row:"+row);
+        try {
+            Cell cell = row.getCell(1);
+        }catch (NullPointerException e){
+            System.out.println("2444");
+
         }
-        return ci;
 
-    }*/
+        DataFormatter formatter = new DataFormatter();
+//        String s = formatter.formatCellValue(cell);
 
+
+    }
     public static void main(String[] args) {
         String path = "C:\\sftp_test\\sample_spreadsheet.xlsx";
         String path2 = "C:\\sftp_test\\经分及领导首页移动业务渠道运营指标优化需求.xlsx";
         String path3 = "./fill_colors.xlsx";
-        File excel = new File(path2);
+        String path4 = "C:\\sftp_test\\samplexxx.xlsx";
+        File excel = new File(path4);
 
         try {
-            new ExcelReader().printExcel(excel);
+            new ExcelReader().testXXX(excel);
         } catch (IOException e) {
             System.err.println("找不到解析的Excel文件");
             e.printStackTrace();
