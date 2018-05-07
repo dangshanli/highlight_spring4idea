@@ -1,4 +1,4 @@
-package common_toolkits.CORS_support_Filter;
+package common_toolkits.cors_support_filter;
 
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

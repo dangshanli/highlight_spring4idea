@@ -1,4 +1,4 @@
-package common_toolkits.CORS_Support_inSpringBoot;
+package common_toolkits.cors_support_withSpringBoot;
 
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package common_toolkits.CORSInterceptor;
+package common_toolkits.corsinterceptor;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;

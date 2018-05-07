@@ -1,4 +1,4 @@
-package common_toolkits.CORSInterceptor;
+package common_toolkits.corsinterceptor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
