@@ -4,6 +4,7 @@ import linktable.SList;
 import linktable.SingleNode;
 import org.apache.poi.ss.formula.functions.T;
 
+import javax.swing.plaf.SliderUI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +15,21 @@ import java.util.Map;
  * @date 2018/5/5
  */
 public class ListUtils {
+    static SingleNode<Integer> myHead = null;
+
+    static {
+        //TODO 构架链表
+        SList<Integer> sList = new SList<>();
+        myHead = new SingleNode<>();//链表1
+        myHead.setDate(1);
+        for (int i = 2; i < 51; i++) {
+            /*if (i % 2 == 0)
+                continue;*/
+            SingleNode<Integer> node = new SingleNode<>();
+            node.setDate(i);
+            sList.insertInLinkedList(myHead, node, sList.listLength(myHead) + 1);
+        }
+    }
 
     /**
      * 问题6：判断一个链表是否为循环链表，比如：A->B->C->D->E->F->C
@@ -281,7 +297,7 @@ public class ListUtils {
         Arrays.sort(hashCode1);
 
         while (current2 != null) {
-            Integer code = Arrays.binarySearch(hashCode1,current2.hashCode());//数组二分查找
+            Integer code = Arrays.binarySearch(hashCode1, current2.hashCode());//数组二分查找
             if (code > 0)
                 return current2;
             current2 = current2.getNext();
@@ -341,7 +357,203 @@ public class ListUtils {
 
 
     /**
-     * 测试问题17的各个解法正确性
+     * 问题25:查找链表的中间节点
+     * 1.先遍历一遍求出链表长度count
+     * 2.再遍历到count/2这个节点，就是中间节点
+     *
+     * @param head
+     * @return 中间节点
+     */
+    SingleNode<Integer> getMidNode(SingleNode<Integer> head) {
+        int count = 0;
+        SingleNode current = head;
+        while (current != null) {
+            count++;
+            current = current.getNext();
+        }
+
+        int mid = count / 2;
+        count = 0;
+        current = head;
+        while (current != null) {
+            if (count == mid)
+                return current;
+            count++;
+            current = current.getNext();
+        }
+
+        return null;
+    }
+
+    /**
+     * 问题27：一次扫描链表解决问题25
+     * 使用连个指针获取中间节点
+     * 1.两个指针同时指向头部
+     * 2.p1移动两步，p2移动一步
+     * 3.p1移动结束以后，p2的位置就是中点
+     *
+     * @param head
+     * @return
+     */
+    SingleNode<Integer> getMidNodeIn2Pointer(SingleNode<Integer> head) {
+        SingleNode p1 = head, p2 = head;
+
+        int count = 0;
+        while (p1 != null) {
+            p1 = p1.getNext();
+            if (count % 2 == 1)
+                p2 = p2.getNext();
+            count++;
+        }
+        return p2;
+    }
+
+    /**
+     * 问题28：倒着打印单向链表
+     * 1.使用递归，直到最后一个节点才释放
+     *
+     * @param head
+     */
+    void printNodeFromEnd(SingleNode<Integer> head) {
+
+        if (head == null)
+            return;
+        printNodeFromEnd(head.getNext());
+        System.out.print(head.getDate() + "\t");
+    }
+
+    /**
+     * 问题29：测试链表长度是奇数还是偶数
+     * 1.每次走两步
+     * 2.最后一次节点 == null，就是偶，否则奇数
+     *
+     * @param head
+     * @return
+     */
+    int isListEven(SingleNode<Integer> head) {
+        SingleNode p1 = head;
+        while (p1 != null && p1.getNext() != null) {
+            p1 = p1.getNext().getNext();
+        }
+        if (p1 == null) return 0;
+        return 1;
+    }
+
+    //问题29解法2：计算总节点，然后看能否整除2
+    int isListEven2(SingleNode<Integer> head) {
+        int count = 1;
+        SingleNode p1 = head;
+        while (p1.getNext() != null) {
+            count++;
+            p1 = p1.getNext();
+        }
+        System.err.println("count:" + count);
+        if (count % 2 == 0) return 0;
+        return 1;
+    }
+
+    /**
+     * 问题31：
+     * 对p1和p2两个有序链表整合成一个有序链表
+     * 1.使用递归对比p1和p2的当前节点，选择小的加入result
+     * 2.然后递归调用下个节点作为头部和另一个节点作为参数
+     * 3.出口：任何一个为空，返回另一个链表
+     *
+     * @param p1
+     * @param p2
+     * @return
+     */
+    SingleNode merge2List(SingleNode<Integer> p1, SingleNode<Integer> p2) {
+        SingleNode result = null;
+
+        //todo 出口
+        if (p1 == null) return p2;
+        if (p2 == null) return p1;
+
+        if (p1.getDate() <= p2.getDate()) {
+            result = p1;
+            result.setNext(merge2List(p1.getNext(), p2));
+        } else {
+            result = p2;
+            result.setNext(merge2List(p2.getNext(), p1));
+        }
+        return result;
+    }
+
+    /**
+     * 问题32：
+     * 对链表进行成对逆置，如1-2-3-4-x 转成 2-1-4-3-x
+     * 1.使用递归，通用情形下：当前链表前两个节点逆置，然后递归调用第三个节点作为表头
+     * 2.基本情形：当前节点为空或者只剩当前一个节点
+     *
+     * @param head
+     * @return
+     */
+    SingleNode<Integer> reversePairedList(SingleNode<Integer> head) {
+        if (head == null || head.getNext() == null)
+            return head;
+
+        SingleNode<Integer> p1 = head;
+        SingleNode<Integer> p2 = p1.getNext();
+        SingleNode<Integer> p3 = p1.getNext().getNext();
+
+        p2.setNext(p1);
+        p1.setNext(reversePairedList(p3));
+
+        return p2;
+    }
+
+    //测试问题32
+    void testQue32() {
+        SingleNode<Integer> p = reversePairedList(myHead);
+        SList<Integer> sList = new SList<>();
+        sList.traverse(p);
+    }
+
+
+    //测试问题31
+    void testQue31() {
+        SList<Integer> sList = new SList<>();
+
+        SingleNode<Integer> head2 = new SingleNode<>();
+        head2.setDate(0);
+
+        for (int i = 1; i < 60; i++) {
+            if (i % 2 == 1)
+                continue;
+            SingleNode<Integer> node = new SingleNode<>();
+            node.setDate(i);
+            sList.insertInLinkedList(head2, node, sList.listLength(head2) + 1);
+        }
+
+        SingleNode<Integer> result = merge2List(myHead, head2);
+        sList.traverse(result);
+    }
+
+    //测试问题29
+    void testQue29() {
+        System.out.println(isListEven(myHead));
+        System.out.println(isListEven2(myHead));
+    }
+
+    //测试问题28
+    void testQuestion28() {
+        printNodeFromEnd(myHead);
+    }
+
+    /**
+     * 测试问题25/27
+     */
+    void testQuestion25() {
+        SingleNode<Integer> node1 = getMidNode(myHead);
+        SingleNode<Integer> node2 = getMidNodeIn2Pointer(myHead);
+
+        System.err.println("node1:" + node1.getDate());
+        System.err.println("node2:" + node2.getDate());
+    }
+
+    /**
+     * 测试问题17-23的各个解法正确性
      */
     void testQuestion() {
         SList<Integer> sList = new SList<>();
@@ -371,8 +583,8 @@ public class ListUtils {
 
         //todo 续上交汇点
         SingleNode<Integer> current2 = head2;
-        while (current2 != null){
-            if (current2.getNext() == null){
+        while (current2 != null) {
+            if (current2.getNext() == null) {
                 current2.setNext(joint);
                 break;
             }
@@ -380,27 +592,24 @@ public class ListUtils {
         }
 //        sList.traverse(head2);
 //        sList.traverse(head);
-        long start  = System.nanoTime();
-        SingleNode<Integer> joinNode = findJoint(head,head2);
+        long start = System.nanoTime();
+        SingleNode<Integer> joinNode = findJoint(head, head2);
         long end = System.nanoTime();
-        long time = end-start;
-        System.err.println("交汇点："+joinNode.getDate());
-        System.err.println("话费 "+time+" nano");
-
-
-
-
-
+        long time = end - start;
+        System.err.println("交汇点：" + joinNode.getDate());
+        System.err.println("花费时长： " + time + " nano");
     }
 
 
     public static void main(String[] args) {
         ListUtils utils = new ListUtils();
-        utils.testQuestion();
+//        utils.testQuestion();
+//        utils.testQuestion25();
+//        utils.testQuestion28();
+//        utils.testQue29();
+//        utils.testQue31();
 
-
-
-
+        utils.testQue32();
 
 
 
