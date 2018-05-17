@@ -4,9 +4,7 @@ import linktable.CLLNode;
 import linktable.CircularList;
 import linktable.SList;
 import linktable.SingleNode;
-import org.apache.poi.ss.formula.functions.T;
 
-import javax.swing.plaf.SliderUI;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -617,6 +615,118 @@ public class ListUtils {
         return null;
     }
 
+
+    /**
+     * 问题41：约瑟夫环问题，大小为n的循环链表，每转m个位置就排除掉第m个位置，最后剩下的是领导
+     * 1.首先构建一个长为n的循环链表
+     * 2.每转m个位置，就提掉他
+     * 3.接着继续转，知道头部节点的next还是他自己时为止
+     *
+     * @param n
+     * @param m
+     * @return
+     */
+    CLLNode<Integer> josephCircle(int n, int m) {
+        //todo 构建循环链表大小为n
+        CLLNode<Integer> head = new CLLNode<>();
+        head.setData(1);
+
+        CLLNode<Integer> p1 = head;
+
+        for (int i = 2; i <= n; i++) {
+            CLLNode<Integer> node = new CLLNode<>();
+            node.setData(i);
+            p1.setNext(node);
+            p1 = p1.getNext();
+        }
+        p1.setNext(head);
+
+        //todo 挑选领导
+        int count = 1;
+        CLLNode<Integer> p2 = head;
+        while (p2.getNext() != p2) {
+            count++;
+            if (count == m) {
+                p2.setNext(p2.getNext().getNext());
+                count = 1;
+            }
+            p2 = p2.getNext();
+        }
+
+        return p2;
+    }
+
+    //约瑟夫环，递归解法
+    CLLNode<Integer> joseph2(CLLNode<Integer> head, int m) {
+        if (head.getNext() == head)
+            return head;
+
+        CLLNode px = head;
+        int count = 1;
+        while (count < m - 1) {
+            count++;
+            px = px.getNext();
+        }
+        px.setNext(px.getNext().getNext());
+        return joseph2(px.getNext(),m);
+    }
+
+    //约瑟夫环，书上解法
+    void joseph3(int n,int m){
+        //todo 构建循环链表大小为n
+        CLLNode<Integer> head = new CLLNode<>();
+        head.setData(1);
+
+        CLLNode<Integer> p1 = head;
+
+        for (int i = 2; i <= n; i++) {
+            CLLNode<Integer> node = new CLLNode<>();
+            node.setData(i);
+            p1.setNext(node);
+            p1 = p1.getNext();
+        }
+        p1.setNext(head);
+
+        for (int count = n; count > 1 ; --count) {
+            for (int i = 0; i < m-1; i++) {
+                p1= p1.getNext();
+            }
+            p1.setNext(p1.getNext().getNext());
+        }
+        System.out.println("节点时："+p1.getData());
+
+    }
+
+    //测试递归法解约瑟夫环
+    void testQue41Recur(int n,int m){
+        //todo 构建循环链表大小为n
+        CLLNode<Integer> head = new CLLNode<>();
+        head.setData(1);
+
+        CLLNode<Integer> p1 = head;
+
+        for (int i = 2; i <= n; i++) {
+            CLLNode<Integer> node = new CLLNode<>();
+            node.setData(i);
+            p1.setNext(node);
+            p1 = p1.getNext();
+        }
+        p1.setNext(head);
+        System.err.println("递归法选取节点data为:"+joseph2(head,m).getData());
+    }
+
+
+    //测试问题41
+    void testQue41() {
+        int n = 44,m =45;
+        CLLNode<Integer> node = null;
+        node = josephCircle(n, m);
+        System.err.println("被选取节点data为：" + node.getData());
+        testQue41Recur(n,m);
+        joseph3(n,m);
+    }
+
+
     //测试问题39
     void testQue39() {
         SingleNode<Integer> head = reverseKNode(myHead, 7);
@@ -777,7 +887,11 @@ public class ListUtils {
 //        utils.testQue32();
 //        utils.testQue36();
 //        utils.testQue37();
-        utils.testQue39();
+//        utils.testQue39();
+        utils.testQue41();
+
+
+
        /* if (utils.isCircularList(headNode))
             System.out.println("循环链表!!!");
         else
