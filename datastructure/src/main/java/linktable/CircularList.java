@@ -13,7 +13,7 @@ public class CircularList<T> {
      * @param headNode 链表头节点
      * @return
      */
-    int length(CLLNode<T> headNode) {
+    public int length(CLLNode<T> headNode) {
         int length = 0;
         CLLNode currentNode = headNode;
         while (currentNode != null) {
@@ -30,7 +30,7 @@ public class CircularList<T> {
      *
      * @param headNode
      */
-    void printData(CLLNode<T> headNode) {
+    public void printData(CLLNode<T> headNode) {
         CLLNode currentNode = headNode;
         while (currentNode != null) {
             System.out.println(currentNode.getData());
@@ -47,7 +47,7 @@ public class CircularList<T> {
      * @param headNode     链表表头
      * @param nodeToInsert 待插入节点
      */
-    void insertAtEnd(CLLNode<T> headNode, CLLNode<T> nodeToInsert) {
+    public void insertAtEnd(CLLNode<T> headNode, CLLNode<T> nodeToInsert) {
         CLLNode currentNode = headNode;
 
         while (currentNode.getNext() != headNode)//currentNode节点更新为尾部节点
@@ -70,7 +70,7 @@ public class CircularList<T> {
      * @param headNode     链表表头
      * @param nodeToInsert 待插入的节点
      */
-    void insertAtBegin(CLLNode<T> headNode, CLLNode<T> nodeToInsert) {
+    public void insertAtBegin(CLLNode<T> headNode, CLLNode<T> nodeToInsert) {
         CLLNode currentNode = headNode;
 
         while (currentNode.getNext() != headNode)
@@ -94,7 +94,7 @@ public class CircularList<T> {
      * @param nodeToInsert
      * @param position
      */
-    void insertAtMid(CLLNode<T> headNode, CLLNode<T> nodeToInsert, int position) {
+    public void insertAtMid(CLLNode<T> headNode, CLLNode<T> nodeToInsert, int position) {
         int size = length(headNode);
         if (position < 1 || position > (size + 1)) {
             System.out.println("position越界，应为1->" + (size + 1));
@@ -129,7 +129,7 @@ public class CircularList<T> {
      *
      * @param headNode
      */
-    void deleteLastNode(CLLNode<T> headNode) {
+    public void deleteLastNode(CLLNode<T> headNode) {
         CLLNode currentNode = headNode;//要删除的节点
         CLLNode previousNode = headNode;//被删除节点的前置节点
 
@@ -151,13 +151,14 @@ public class CircularList<T> {
 
     /**
      * 删除头部节点
+     *
      * @param headNode 链表表头节点
      */
-    void deleteFrontNode(CLLNode<T> headNode){
+    public void deleteFrontNode(CLLNode<T> headNode) {
         CLLNode temp = headNode;//持有头部节点
         CLLNode current = headNode;
 
-        if (headNode == null){
+        if (headNode == null) {
             System.out.println("空链表!!!");
             return;
         }

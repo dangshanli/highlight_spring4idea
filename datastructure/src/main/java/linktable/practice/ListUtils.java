@@ -1,5 +1,7 @@
 package linktable.practice;
 
+import linktable.CLLNode;
+import linktable.CircularList;
 import linktable.SList;
 import linktable.SingleNode;
 import org.apache.poi.ss.formula.functions.T;
@@ -18,11 +20,11 @@ public class ListUtils {
     static SingleNode<Integer> myHead = null;
 
     static {
-        //TODO 构架链表
+        //TODO 构建链表
         SList<Integer> sList = new SList<>();
         myHead = new SingleNode<>();//链表1
         myHead.setDate(1);
-        for (int i = 2; i < 51; i++) {
+        for (int i = 2; i < 11; i++) {
             /*if (i % 2 == 0)
                 continue;*/
             SingleNode<Integer> node = new SingleNode<>();
@@ -503,6 +505,169 @@ public class ListUtils {
         return p2;
     }
 
+    /**
+     * 问题36：将一个循环单向链表拆成相等两个，若是奇数个，则前一个多一个节点
+     * 使用Floyd算法（即双指针一快一慢的算法解决这个问题）
+     * 1.两个指针，p1 p2
+     * 2.p2是p1的两倍移速
+     * 3.p2结束后，p1正好中间，最后沿着p1和head两个位置切割，然后重组成循环链表
+     *
+     * @param head
+     */
+    void cutCircuitList(CLLNode<Integer> head) {
+        CLLNode<Integer> p1 = head, p2 = head;
+        //      奇                       偶
+        while (p2.getNext() != head && p2.getNext().getNext() != head) {
+            p1 = p1.getNext();
+            p2 = p2.getNext().getNext();//
+        }
+        CLLNode p3 = p1.getNext();
+        p1.setNext(head);
+        if (p2.getNext().getNext() == head) {
+            p2.getNext().setNext(p3);
+        }
+
+        if (p2.getNext() == head) {
+            p2.setNext(p3);
+        }
+
+        CircularList<Integer> circularList = new CircularList<>();
+        circularList.printData(head);
+        circularList.printData(p3);
+    }
+
+    /**
+     * 问题37：验证链表是否是回文，顺读和倒读一样
+     * 1.检索出中点
+     * 2.后半段进行逆序
+     * 3.前后半段进行对比
+     * 4.逆序后半段，重组回原来的（该方法没那么做）
+     *
+     * @param head
+     * @return
+     */
+    boolean isPalindrome(SingleNode<Integer> head) {
+        //TODO 如果单节点或者为空
+        if (head == null || head.getNext() == null)
+            return false;
+
+        //TODO 计算中间节点
+        SList<Integer> sList = new SList<>();
+        int length = sList.listLength(head);
+        SingleNode<Integer> midNode = getMidNodeIn2Pointer(head);
+
+
+        //TODO 奇偶有别，奇数个需要向后移一位，并逆序
+        SingleNode<Integer> sortedHead = null;
+        if (length % 2 == 0) {//偶数长度
+            sortedHead = reverseSList(midNode);
+        } else {//奇数长度
+            sortedHead = reverseSList(midNode.getNext());
+        }
+
+        //TODO 对比前半段
+        SingleNode<Integer> p1 = head;
+        while (sortedHead != null) {
+            if (!sortedHead.getDate().equals(p1.getDate()))
+                return false;
+            sortedHead = sortedHead.getNext();
+            p1 = p1.getNext();
+        }
+
+        return true;
+    }
+
+    /**
+     * 问题39：逆置相邻的K个节点块
+     * 1.使用递归
+     * 2.首先截出前k个节点，如果不足k节点直接返回当前链表
+     * 3.对当前k节点链表逆序，然后对k+1节点递归调用之前的方法
+     * 4.直到剩下的节点不足k个为止，递归回溯
+     *
+     * @param head
+     */
+    SingleNode<Integer> reverseKNode(SingleNode<Integer> head, int k) {
+
+        SingleNode<Integer> kthNode = null;
+        if ((kthNode = kthNode(k, head)) != null) {
+            SingleNode<Integer> p1 = kthNode.getNext();
+            kthNode.setNext(null);
+            head = reverseSList(head);
+
+            SingleNode<Integer> p2 = head;
+            while (p2.getNext() != null) {
+                p2 = p2.getNext();
+            }
+
+            p2.setNext(reverseKNode(p1, k));
+        }
+        return head;
+    }
+
+    //获取链表第k个节点
+    private SingleNode<Integer> kthNode(int k, SingleNode<Integer> head) {
+        int count = 0;
+        SingleNode<Integer> p1 = head;
+        while (p1 != null) {
+            count = count + 1;
+            if (count == k)
+                return p1;
+            p1 = p1.getNext();
+        }
+        return null;
+    }
+
+    //测试问题39
+    void testQue39() {
+        SingleNode<Integer> head = reverseKNode(myHead, 7);
+        SList<Integer> sList = new SList<>();
+
+        sList.traverse(head);
+    }
+
+
+    //测试问题37
+    void testQue37() {
+        SingleNode<Integer> head = new SingleNode<>();
+        head.setDate(0);
+
+        SList<Integer> sList = new SList<>();
+        for (int i = 1; i < 6; i++) {
+            SingleNode<Integer> node = new SingleNode<>();
+            node.setDate(i);
+            sList.insertInLinkedList(head, node, sList.listLength(head) + 1);
+        }
+        for (int i = 3; i >= 0; i--) {
+            SingleNode<Integer> node = new SingleNode<>();
+            node.setDate(i);
+            sList.insertInLinkedList(head, node, sList.listLength(head) + 1);
+        }
+
+        boolean b = isPalindrome(head);
+        if (b)
+            System.err.println("回文");
+        else
+            System.out.println("非回文");
+    }
+
+
+    //测试问题36
+    void testQue36() {
+        CLLNode<Integer> head = new CLLNode<>();
+        head.setData(0);
+        head.setNext(head);
+
+        CircularList<Integer> circularList = new CircularList<>();
+        for (int i = 1; i < 31; i++) {
+            CLLNode<Integer> node = new CLLNode<>();
+            node.setData(i);
+            circularList.insertAtEnd(head, node);
+        }
+
+        cutCircuitList(head);
+    }
+
+
     //测试问题32
     void testQue32() {
         SingleNode<Integer> p = reversePairedList(myHead);
@@ -609,10 +774,10 @@ public class ListUtils {
 //        utils.testQue29();
 //        utils.testQue31();
 
-        utils.testQue32();
-
-
-
+//        utils.testQue32();
+//        utils.testQue36();
+//        utils.testQue37();
+        utils.testQue39();
        /* if (utils.isCircularList(headNode))
             System.out.println("循环链表!!!");
         else
