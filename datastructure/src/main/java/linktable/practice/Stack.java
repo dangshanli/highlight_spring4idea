@@ -33,6 +33,15 @@ public class Stack<T> {
         return sList.listLength(head);
     }
 
+    public void add(SingleNode<T> node) {
+        if (head == null)
+            head = node;
+        else {
+            sList.insertInLinkedList(head, node, sList.listLength(head) + 1);
+        }
+    }
+
+
     /**
      * stack长度
      *
@@ -48,7 +57,7 @@ public class Stack<T> {
      * @return
      */
     public T pop() {
-        if (length() == 0){
+        if (length() == 0) {
             System.err.println("空链表!!!");
             return null;
         }
@@ -56,7 +65,7 @@ public class Stack<T> {
         SingleNode<T> current = head;
         SingleNode<T> previous = null;
 
-        if (length() == 1){
+        if (length() == 1) {
             head = null;
             return current.getDate();
         }
@@ -73,6 +82,30 @@ public class Stack<T> {
         current = null;
         return data;
     }
+
+    public SingleNode<T> popNode() {
+        if (length() == 0) {
+            System.err.println("空链表!!!");
+            return null;
+        }
+
+        SingleNode<T> current = head;
+        SingleNode<T> previous = null;
+
+        if (length() == 1) {
+            head = null;
+            return current;
+        }
+
+        while (current.getNext() != null) {
+            previous = current;
+            current = current.getNext();
+        }
+
+        previous.setNext(null);
+        return current;
+    }
+
 
     /**
      * 清空栈
@@ -92,13 +125,13 @@ public class Stack<T> {
             studentStack.add(s);
         }
 
-        System.out.println("length:"+studentStack.length());
+        System.out.println("length:" + studentStack.length());
         System.out.println(studentStack.pop());
-        System.out.println("2: "+studentStack.pop());
-        System.out.println("3: "+studentStack.pop());
-        System.out.println("4: "+studentStack.pop());
-        System.out.println("5: "+studentStack.pop());
-        System.out.println("6: "+studentStack.pop());
+        System.out.println("2: " + studentStack.pop());
+        System.out.println("3: " + studentStack.pop());
+        System.out.println("4: " + studentStack.pop());
+        System.out.println("5: " + studentStack.pop());
+        System.out.println("6: " + studentStack.pop());
     }
 
 

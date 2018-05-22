@@ -80,7 +80,6 @@ public class ModNode {
             p1 = p1.getNext();
             count++;
         }
-
         return p2;
     }
 

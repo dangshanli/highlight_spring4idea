@@ -668,11 +668,11 @@ public class ListUtils {
             px = px.getNext();
         }
         px.setNext(px.getNext().getNext());
-        return joseph2(px.getNext(),m);
+        return joseph2(px.getNext(), m);
     }
 
     //约瑟夫环，书上解法
-    void joseph3(int n,int m){
+    void joseph3(int n, int m) {
         //todo 构建循环链表大小为n
         CLLNode<Integer> head = new CLLNode<>();
         head.setData(1);
@@ -687,18 +687,25 @@ public class ListUtils {
         }
         p1.setNext(head);
 
-        for (int count = n; count > 1 ; --count) {
-            for (int i = 0; i < m-1; i++) {
-                p1= p1.getNext();
+        for (int count = n; count > 1; --count) {
+            for (int i = 0; i < m - 1; i++) {
+                p1 = p1.getNext();
             }
             p1.setNext(p1.getNext().getNext());
         }
-        System.out.println("节点时："+p1.getData());
+        System.out.println("节点时：" + p1.getData());
 
     }
 
+
+
+
+
+
+
+
     //测试递归法解约瑟夫环
-    void testQue41Recur(int n,int m){
+    void testQue41Recur(int n, int m) {
         //todo 构建循环链表大小为n
         CLLNode<Integer> head = new CLLNode<>();
         head.setData(1);
@@ -712,18 +719,18 @@ public class ListUtils {
             p1 = p1.getNext();
         }
         p1.setNext(head);
-        System.err.println("递归法选取节点data为:"+joseph2(head,m).getData());
+        System.err.println("递归法选取节点data为:" + joseph2(head, m).getData());
     }
 
 
     //测试问题41
     void testQue41() {
-        int n = 44,m =45;
+        int n = 44, m = 45;
         CLLNode<Integer> node = null;
         node = josephCircle(n, m);
         System.err.println("被选取节点data为：" + node.getData());
-        testQue41Recur(n,m);
-        joseph3(n,m);
+        testQue41Recur(n, m);
+        joseph3(n, m);
     }
 
 
