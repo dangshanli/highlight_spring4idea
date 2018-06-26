@@ -53,6 +53,10 @@ public class DynArrayStack {
         return array[top--];
     }
 
+    public void deleteStack(){
+        top = -1;
+    }
+
     public static void main(String[] args) {//测试
         DynArrayStack dynArrayStack = new DynArrayStack();
         for (int i = 0; i < 10; i++) {
