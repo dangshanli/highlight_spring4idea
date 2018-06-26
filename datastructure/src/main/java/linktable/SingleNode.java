@@ -13,6 +13,10 @@ public class SingleNode<T> {
     public SingleNode() {
     }
 
+    public SingleNode(T date) {
+        this.date = date;
+    }
+
     public SingleNode(T date, SingleNode next) {
         this.date = date;
         this.next = next;
